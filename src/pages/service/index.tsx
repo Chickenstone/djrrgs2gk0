@@ -1,6 +1,20 @@
 import React, { useState } from 'react';
 import { ShieldCheck, Languages, Headphones, ChevronRight, Star, X } from 'lucide-react';
 import { db, auth } from '../../utils/cloudbase';
+import { motion } from 'framer-motion';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
 
 const PACKAGES = [
   {
@@ -115,9 +129,18 @@ export function Service() {
           <h3 className="font-bold text-gray-800">透明服务包推荐</h3>
           <span className="text-xs text-gray-500">查看更多 &gt;</span>
         </div>
-        <div className="space-y-4">
+        <motion.div 
+          className="space-y-4"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {PACKAGES.map((pkg) => (
-            <div key={pkg.id} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
+            <motion.div 
+              key={pkg.id} 
+              variants={itemVariants}
+              className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all duration-200 active:scale-95 hover:scale-[1.02] hover:shadow-md cursor-pointer"
+            >
               <div className="p-4 border-b border-gray-50">
                 <div className="flex justify-between items-start mb-2">
                   <h4 className="font-bold text-gray-800 text-base">{pkg.title}</h4>
@@ -164,9 +187,9 @@ export function Service() {
                   立即预订
                 </button>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Booking Form Modal */}

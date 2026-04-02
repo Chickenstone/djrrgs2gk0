@@ -1,6 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Star, MapPin, Clock, Search } from 'lucide-react';
 import { db, signInAnonymously } from '../../utils/cloudbase';
+import { motion } from 'framer-motion';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
 
 // 假设我们的集合名称为 'restaurants'
 // 在真实环境中，您需要在腾讯云开发控制台创建这个集合并导入数据
@@ -122,47 +136,58 @@ export function Food() {
         ) : error ? (
           <div className="text-center py-10 text-red-500 text-sm">{error}</div>
         ) : (
-          restaurants.map((restaurant) => (
-            <div key={restaurant._id} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 flex flex-col">
-              <div className="relative h-40">
-                <img src={restaurant.image} alt={restaurant.name} className="w-full h-full object-cover" />
-                <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1">
-                  <div className={`w-2 h-2 rounded-full ${
-                    restaurant.crowdLevel === 'low' ? 'bg-green-500' : 
-                    restaurant.crowdLevel === 'medium' ? 'bg-yellow-500' : 'bg-red-500'
-                  }`}></div>
-                  <span className="text-[10px] font-medium text-gray-700">
-                    {restaurant.crowdLevel === 'low' ? '空闲' : 
-                     restaurant.crowdLevel === 'medium' ? '适中' : '拥挤'}
-                  </span>
-                </div>
-              </div>
-              <div className="p-3">
-                <div className="flex justify-between items-start mb-1">
-                  <h3 className="font-bold text-gray-800 text-lg">{restaurant.name}</h3>
-                  <div className="flex items-center gap-1 bg-orange-50 px-1.5 py-0.5 rounded text-orange-600">
-                    <Star className="w-3 h-3 fill-current" />
-                    <span className="text-xs font-bold">{restaurant.rating}</span>
+          <motion.div 
+            className="space-y-4"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {restaurants.map((restaurant) => (
+              <motion.div 
+                key={restaurant._id} 
+                variants={itemVariants}
+                className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 flex flex-col transition-all duration-200 active:scale-95 hover:scale-[1.02] hover:shadow-md cursor-pointer"
+              >
+                <div className="relative h-40">
+                  <img src={restaurant.image} alt={restaurant.name} className="w-full h-full object-cover" />
+                  <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1">
+                    <div className={`w-2 h-2 rounded-full ${
+                      restaurant.crowdLevel === 'low' ? 'bg-green-500' : 
+                      restaurant.crowdLevel === 'medium' ? 'bg-yellow-500' : 'bg-red-500'
+                    }`}></div>
+                    <span className="text-[10px] font-medium text-gray-700">
+                      {restaurant.crowdLevel === 'low' ? '空闲' : 
+                       restaurant.crowdLevel === 'medium' ? '适中' : '拥挤'}
+                    </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 text-xs text-gray-500 mb-2">
-                  <span>{restaurant.category}</span>
-                  <span className="flex items-center gap-0.5"><MapPin className="w-3 h-3" /> {restaurant.distance}</span>
-                  <span className="flex items-center gap-0.5"><Clock className="w-3 h-3" /> {restaurant.time}</span>
+                <div className="p-3">
+                  <div className="flex justify-between items-start mb-1">
+                    <h3 className="font-bold text-gray-800 text-lg">{restaurant.name}</h3>
+                    <div className="flex items-center gap-1 bg-orange-50 px-1.5 py-0.5 rounded text-orange-600">
+                      <Star className="w-3 h-3 fill-current" />
+                      <span className="text-xs font-bold">{restaurant.rating}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 text-xs text-gray-500 mb-2">
+                    <span>{restaurant.category}</span>
+                    <span className="flex items-center gap-0.5"><MapPin className="w-3 h-3" /> {restaurant.distance}</span>
+                    <span className="flex items-center gap-0.5"><Clock className="w-3 h-3" /> {restaurant.time}</span>
+                  </div>
+                  <div className="flex gap-2 mb-3">
+                    {restaurant.tags?.map(tag => (
+                      <span key={tag} className="text-[10px] px-2 py-0.5 border border-gray-200 text-gray-600 rounded">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex justify-end gap-2 border-t border-gray-50 pt-3">
+                    <button className="px-4 py-1.5 text-sm font-medium text-white bg-orange-500 rounded-lg hover:bg-orange-600 shadow-sm transition-colors">立即预订</button>
+                  </div>
                 </div>
-                <div className="flex gap-2 mb-3">
-                  {restaurant.tags?.map(tag => (
-                    <span key={tag} className="text-[10px] px-2 py-0.5 border border-gray-200 text-gray-600 rounded">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex justify-end gap-2 border-t border-gray-50 pt-3">
-                  <button className="px-4 py-1.5 text-sm font-medium text-white bg-orange-500 rounded-lg hover:bg-orange-600 shadow-sm">立即预订</button>
-                </div>
-              </div>
-            </div>
-          ))
+              </motion.div>
+            ))}
+          </motion.div>
         )}
       </div>
     </div>

@@ -1,8 +1,9 @@
 import React from 'react';
-import { Outlet, NavLink } from 'react-router-dom';
+import { Outlet, NavLink, useLocation } from 'react-router-dom';
 import { Home, Utensils, Map, ShoppingBag, User } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { AnimatePresence, motion } from 'framer-motion';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -17,10 +18,23 @@ const TABS = [
 ];
 
 export function MobileLayout() {
+  const location = useLocation();
+
   return (
     <div className="flex flex-col h-screen bg-gray-50 overflow-hidden w-full max-w-md mx-auto shadow-2xl relative">
       <main className="flex-1 overflow-y-auto pb-[env(safe-area-inset-bottom)]">
-        <Outlet />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="h-full"
+          >
+            <Outlet />
+          </motion.div>
+        </AnimatePresence>
       </main>
 
       <nav className="bg-white/90 backdrop-blur-md border-t border-gray-100 pb-[env(safe-area-inset-bottom)] shrink-0 shadow-[0_-4px_20px_-10px_rgba(0,0,0,0.05)] z-50">

@@ -1,6 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Map, Navigation, Sun, Users, ArrowRight } from 'lucide-react';
 import { db, signInAnonymously } from '../../utils/cloudbase';
+import { motion } from 'framer-motion';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
 
 interface Spot {
   _id: string;
@@ -117,45 +131,56 @@ export function Travel() {
           ) : error ? (
             <div className="text-center py-10 text-red-500 text-sm">{error}</div>
           ) : (
-            spots.map((spot) => (
-              <div key={spot._id} className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100">
-                <div className="h-32 relative">
-                  <img src={spot.image} alt={spot.name} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                  <div className="absolute bottom-3 left-3 text-white">
-                    <h4 className="font-bold">{spot.name}</h4>
-                    <p className="text-xs text-white/80">{spot.desc}</p>
-                  </div>
-                </div>
-                <div className="p-3">
-                  <div className="flex justify-between items-center mb-3">
-                    <div className="flex gap-2">
-                      <span className="text-[10px] px-2 py-0.5 bg-gray-100 text-gray-600 rounded">
-                        {spot.weather}
-                      </span>
-                      <span className={`text-[10px] px-2 py-0.5 rounded ${
-                        spot.crowd === 'low' ? 'bg-green-50 text-green-600' :
-                        spot.crowd === 'medium' ? 'bg-yellow-50 text-yellow-600' :
-                        'bg-red-50 text-red-600'
-                      }`}>
-                        {spot.crowd === 'low' ? '客流舒适' : spot.crowd === 'medium' ? '客流适中' : '客流拥挤'}
-                      </span>
+            <motion.div 
+              className="space-y-4"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {spots.map((spot) => (
+                <motion.div 
+                  key={spot._id} 
+                  variants={itemVariants}
+                  className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 transition-all duration-200 active:scale-95 hover:scale-[1.02] hover:shadow-md cursor-pointer"
+                >
+                  <div className="h-32 relative">
+                    <img src={spot.image} alt={spot.name} className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    <div className="absolute bottom-3 left-3 text-white">
+                      <h4 className="font-bold">{spot.name}</h4>
+                      <p className="text-xs text-white/80">{spot.desc}</p>
                     </div>
                   </div>
-                  <div className="flex gap-2 mb-3">
-                    {spot.tags?.map(tag => (
-                      <span key={tag} className="text-[10px] border border-gray-200 text-gray-500 px-1.5 py-0.5 rounded">
-                        {tag}
-                      </span>
-                    ))}
+                  <div className="p-3">
+                    <div className="flex justify-between items-center mb-3">
+                      <div className="flex gap-2">
+                        <span className="text-[10px] px-2 py-0.5 bg-gray-100 text-gray-600 rounded">
+                          {spot.weather}
+                        </span>
+                        <span className={`text-[10px] px-2 py-0.5 rounded ${
+                          spot.crowd === 'low' ? 'bg-green-50 text-green-600' :
+                          spot.crowd === 'medium' ? 'bg-yellow-50 text-yellow-600' :
+                          'bg-red-50 text-red-600'
+                        }`}>
+                          {spot.crowd === 'low' ? '客流舒适' : spot.crowd === 'medium' ? '客流适中' : '客流拥挤'}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 mb-3">
+                      {spot.tags?.map(tag => (
+                        <span key={tag} className="text-[10px] border border-gray-200 text-gray-500 px-1.5 py-0.5 rounded">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex justify-end gap-2 border-t border-gray-50 pt-2">
+                      <button className="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-50 rounded-lg transition-colors hover:bg-gray-100">详情</button>
+                      <button className="px-3 py-1.5 text-xs font-medium text-white bg-green-500 rounded-lg transition-colors hover:bg-green-600">去这里</button>
+                    </div>
                   </div>
-                  <div className="flex justify-end gap-2 border-t border-gray-50 pt-2">
-                    <button className="px-3 py-1.5 text-xs font-medium text-gray-600 bg-gray-50 rounded-lg">详情</button>
-                    <button className="px-3 py-1.5 text-xs font-medium text-white bg-green-500 rounded-lg">去这里</button>
-                  </div>
-                </div>
-              </div>
-            ))
+                </motion.div>
+              ))}
+            </motion.div>
           )}
         </div>
       </div>

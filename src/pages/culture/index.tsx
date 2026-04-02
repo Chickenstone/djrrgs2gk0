@@ -1,6 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Camera, Gift, Award, ShoppingCart, MapPin } from 'lucide-react';
 import { db, signInAnonymously } from '../../utils/cloudbase';
+import { motion } from 'framer-motion';
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.1 }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
 
 interface Product {
   _id: string;
@@ -123,30 +137,41 @@ export function Culture() {
           ) : error ? (
             <div className="col-span-2 text-center py-10 text-red-500 text-sm">{error}</div>
           ) : (
-            products.map((product) => (
-              <div key={product._id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="aspect-square relative">
-                  <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
-                  <span className="absolute top-2 left-2 text-[10px] bg-red-500 text-white px-1.5 py-0.5 rounded">
-                    {product.type}
-                  </span>
-                </div>
-                <div className="p-2.5">
-                  <h4 className="font-medium text-gray-800 text-xs mb-2 line-clamp-2 h-8">{product.name}</h4>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-red-500 font-bold text-sm flex items-center gap-0.5">
-                        {product.points} <span className="text-[10px] font-normal">积分</span>
-                      </div>
-                      <div className="text-[10px] text-gray-400 line-through">¥{product.price}</div>
-                    </div>
-                    <button className="bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center shadow-sm">
-                      <span className="text-xs font-bold">+</span>
-                    </button>
+            <motion.div 
+              className="col-span-2 grid grid-cols-2 gap-3"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {products.map((product) => (
+                <motion.div 
+                  key={product._id} 
+                  variants={itemVariants}
+                  className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-200 active:scale-95 hover:scale-[1.02] hover:shadow-md cursor-pointer"
+                >
+                  <div className="aspect-square relative">
+                    <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
+                    <span className="absolute top-2 left-2 text-[10px] bg-red-500 text-white px-1.5 py-0.5 rounded">
+                      {product.type}
+                    </span>
                   </div>
-                </div>
-              </div>
-            ))
+                  <div className="p-2.5">
+                    <h4 className="font-medium text-gray-800 text-xs mb-2 line-clamp-2 h-8">{product.name}</h4>
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="text-red-500 font-bold text-sm flex items-center gap-0.5">
+                          {product.points} <span className="text-[10px] font-normal">积分</span>
+                        </div>
+                        <div className="text-[10px] text-gray-400 line-through">¥{product.price}</div>
+                      </div>
+                      <button className="bg-red-600 text-white w-6 h-6 rounded-full flex items-center justify-center shadow-sm transition-transform hover:scale-110">
+                        <span className="text-xs font-bold">+</span>
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
           )}
         </div>
       </div>
