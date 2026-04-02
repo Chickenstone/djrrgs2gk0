@@ -30,21 +30,36 @@ npm run build
 
 ---
 
-## 高级选项（使用命令行自动化部署）
+## 终极方案：GitHub Actions 自动持续部署 (CI/CD)
 
-如果你不想每次都手动拖拽上传，可以使用腾讯云开发的命令行工具 `@cloudbase/cli`：
+为了实现“代码一推，网站自动更新”，本项目已配置好 GitHub Actions 自动化工作流。只要您将代码推送到 GitHub 仓库的 `main` 分支，系统就会自动帮您打包并部署到腾讯云。
 
-1. 全局安装 CLI：
+### 准备工作（仅需配置一次）
+
+1. **获取腾讯云 API 密钥**
+   - 登录腾讯云控制台。
+   - 鼠标悬停在右上角的头像处，点击 **“访问管理” (CAM)**。
+   - 在左侧菜单选择 **“访问密钥” -> “API 密钥管理”**。
+   - 点击“新建密钥”，您将获得一对 `SecretId` 和 `SecretKey`。**请妥善保管，不要泄露给他人。**
+
+2. **在 GitHub 仓库中配置 Secrets**
+   - 打开您的项目 GitHub 仓库页面。
+   - 点击上方的 **“Settings”**（设置）选项卡。
+   - 在左侧菜单栏找到 **“Secrets and variables” -> “Actions”**。
+   - 点击右上角的绿色按钮 **“New repository secret”**。
+   - 依次添加以下三个 Secret：
+     - Name: `TENCENT_SECRET_ID` / Value: 填入您刚才获取的 SecretId
+     - Name: `TENCENT_SECRET_KEY` / Value: 填入您刚才获取的 SecretKey
+     - Name: `TCB_ENV_ID` / Value: 填入您的云开发环境 ID（例如：`dxbmapp-5gp7z3tpe88b9050`）
+
+### 如何触发自动部署？
+
+配置完成后，您在本地修改完代码后，只需要执行常规的 Git 提交流程：
+
 ```bash
-npm i -g @cloudbase/cli
+git add .
+git commit -m "更新了首页布局"
+git push origin main
 ```
 
-2. 登录腾讯云：
-```bash
-tcb login
-```
-
-3. 一键部署 `dist` 目录（将 ENV_ID 换成你的真实环境ID）：
-```bash
-tcb hosting deploy ./dist -e YOUR_ENV_ID
-```
+代码推送到 `main` 分支后，您可以去 GitHub 仓库的 **“Actions”** 选项卡查看部署进度。通常在 1-2 分钟内，您的网站就会自动更新为最新版本！

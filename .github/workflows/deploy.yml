@@ -1,0 +1,38 @@
+name: Deploy to Tencent CloudBase Hosting
+
+on:
+  push:
+    branches:
+      - main # 当代码推送到 main 分支时触发
+
+jobs:
+  build-and-deploy:
+    runs-of: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # 项目使用的 Node.js 版本
+
+      - name: Install Dependencies
+        run: npm ci # 使用 ci 确保完全按照 package-lock.json 安装依赖
+
+      - name: Build Project
+        env:
+          # 在构建时注入环境变量，确保前端代码能正确连接到对应的云开发环境
+          VITE_CLOUDBASE_ENV_ID: ${{ secrets.TCB_ENV_ID }}
+        run: npm run build
+
+      - name: Deploy to CloudBase Hosting
+        # 使用腾讯云官方提供的 Action 插件
+        uses: TencentCloudBase/cloudbase-action@v2.0.1
+        with:
+          secretId: ${{ secrets.TENCENT_SECRET_ID }}
+          secretKey: ${{ secrets.TENCENT_SECRET_KEY }}
+          envId: ${{ secrets.TCB_ENV_ID }}
+          # 部署本地的 dist 目录到云开发静态托管环境的根目录
+          staticSrcPath: dist
+          staticDestPath: /
