@@ -15,6 +15,7 @@ import { RestaurantsAdmin } from './pages/admin/restaurants';
 import { SpotsAdmin } from './pages/admin/spots';
 import { ProductsAdmin } from './pages/admin/products';
 import { BookingsAdmin } from './pages/admin/bookings';
+import { SystemSettings } from './pages/admin/settings';
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
             <Route path="spots" element={<SpotsAdmin />} />
             <Route path="products" element={<ProductsAdmin />} />
             <Route path="bookings" element={<BookingsAdmin />} />
+            <Route path="settings" element={<SystemSettings />} />
             {/* 其他管理页面在此添加 */}
           </Route>
         </Route>
