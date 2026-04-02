@@ -17,9 +17,28 @@ export const db = app.database();
 
 // 辅助函数：匿名登录（用于游客浏览）
 export const signInAnonymously = async () => {
-  const loginState = await auth.getLoginState();
+  let loginState = null;
+  try {
+    loginState = await auth.getLoginState();
+  } catch (error: any) {
+    // @cloudbase/js-sdk 存在一个已知的 bug：当未登录（本地无 credentials）时，
+    // 获取登录状态会抛出 "Cannot read properties of null (reading 'scope')" 的错误。
+    // 如果是这个错误，说明用户当前未登录，我们捕获它并继续执行后续的匿名登录。
+    if (error && error.message && error.message.includes('scope')) {
+      console.warn('捕获到 SDK 登录状态 scope 报错，这通常意味着当前未登录。');
+      loginState = null;
+    } else {
+      throw error; // 如果是其他未知错误，继续抛出
+    }
+  }
+
   if (!loginState) {
-    await auth.anonymousAuthProvider().signIn();
-    console.log('已匿名登录腾讯云开发');
+    try {
+      await auth.anonymousAuthProvider().signIn();
+      console.log('已匿名登录腾讯云开发');
+    } catch (signInErr) {
+      console.error('匿名登录失败，请检查云开发控制台是否开启了“匿名登录”：', signInErr);
+      throw signInErr;
+    }
   }
 };

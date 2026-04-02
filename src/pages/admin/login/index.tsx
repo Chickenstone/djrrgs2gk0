@@ -24,7 +24,16 @@ export function AdminLogin() {
         sessionStorage.setItem('admin_token', 'mock_admin_token_123');
         
         // 确保匿名登录，以便有权限读取数据库
-        const loginState = await auth.getLoginState();
+        let loginState = null;
+        try {
+          loginState = await auth.getLoginState();
+        } catch (e: any) {
+          if (e?.message?.includes('scope')) {
+            loginState = null;
+          } else {
+            throw e;
+          }
+        }
         // @ts-ignore - 腾讯云 SDK 类型定义不完整
         const isAnon = loginState?.isAnonymous === true || loginState?.loginType === 'ANONYMOUS';
         if (!loginState || !isAnon) {

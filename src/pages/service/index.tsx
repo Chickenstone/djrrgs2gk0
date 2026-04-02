@@ -47,7 +47,18 @@ export function Service() {
 
   const handleBookClick = async (pkg: any) => {
     // 检查是否登录
-    const loginState = await auth.getLoginState();
+    let loginState = null;
+    try {
+      loginState = await auth.getLoginState();
+    } catch (err: any) {
+      // 兼容 @cloudbase/js-sdk 抛出的 scope null 异常
+      if (err && err.message && err.message.includes('scope')) {
+        loginState = null;
+      } else {
+        console.error('获取登录状态失败', err);
+      }
+    }
+
     // @ts-ignore - 腾讯云 SDK 类型定义不完整
     const isAnon = loginState?.isAnonymous === true || loginState?.loginType === 'ANONYMOUS';
     

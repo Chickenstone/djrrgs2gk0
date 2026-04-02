@@ -14,7 +14,16 @@ export function User() {
   const checkLoginState = async () => {
     try {
       setLoading(true);
-      const loginState = await auth.getLoginState();
+      let loginState = null;
+      try {
+        loginState = await auth.getLoginState();
+      } catch (err: any) {
+        if (err && err.message && err.message.includes('scope')) {
+          loginState = null;
+        } else {
+          throw err;
+        }
+      }
       // 判断是否是真的登录用户（通过检查是否有 loginType 且不为 'ANONYMOUS'，或者简单判断是否有 user.uid 且非匿名场景）
       // @ts-ignore - 腾讯云 SDK 类型定义不完整，我们强制读取 isAnonymous 属性或依赖上下文
       const isAnon = loginState?.isAnonymous === true || loginState?.loginType === 'ANONYMOUS';
