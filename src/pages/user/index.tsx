@@ -80,7 +80,7 @@ export function User() {
   return (
     <div className="flex flex-col min-h-full bg-gray-50 pb-6">
       {/* Header Profile */}
-      <div className="bg-blue-600 text-white pt-10 pb-12 px-6 rounded-b-[40px] shadow-sm relative z-0">
+      <div className="bg-primary-600 text-white pt-10 pb-12 px-6 rounded-b-[40px] shadow-sm relative z-0">
         <div className="flex items-center gap-4">
           <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center border-2 border-white/40 overflow-hidden">
             {isLoggedIn ? (
@@ -96,15 +96,15 @@ export function User() {
             <div className="flex gap-2">
               {isLoggedIn ? (
                 <>
-                  <span className="text-[10px] bg-blue-500 px-2 py-0.5 rounded-full border border-blue-400">
+                  <span className="text-[10px] bg-primary-500 px-2 py-0.5 rounded-full border border-primary-400">
                     {userInfo?.type}
                   </span>
-                  <span className={`text-[10px] px-2 py-0.5 rounded-full border ${userInfo?.verified ? 'bg-green-500 border-green-400' : 'bg-blue-500 border-blue-400'}`}>
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full border ${userInfo?.verified ? 'bg-green-500 border-green-400' : 'bg-primary-500 border-primary-400'}`}>
                     {userInfo?.verified ? '已实名' : '未实名'}
                   </span>
                 </>
               ) : (
-                <span className="text-[10px] bg-blue-500/50 px-2 py-0.5 rounded-full border border-blue-400/50">
+                <span className="text-[10px] bg-primary-500/50 px-2 py-0.5 rounded-full border border-primary-400/50">
                   点击下方按钮登录
                 </span>
               )}
@@ -147,7 +147,7 @@ export function User() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="flex items-center justify-between p-4 border-b border-gray-50 active:bg-gray-50 cursor-pointer" onClick={() => !isLoggedIn && alert('请先登录')}>
             <div className="flex items-center gap-3">
-              <Calendar className="w-5 h-5 text-blue-500" />
+              <Calendar className="w-5 h-5 text-primary-500" />
               <span className="text-sm font-medium text-gray-800">我的政务预约</span>
             </div>
             <ChevronRight className="w-4 h-4 text-gray-400" />
@@ -185,7 +185,7 @@ export function User() {
           <button 
             onClick={handleLogin}
             disabled={loading}
-            className="w-full bg-blue-50 text-blue-600 py-3 rounded-xl text-sm font-bold shadow-sm active:bg-blue-100 transition-colors"
+            className="w-full bg-primary-50 text-primary-600 py-3 rounded-xl text-sm font-bold shadow-sm active:bg-primary-100 transition-colors"
           >
             {loading ? '处理中...' : '微信一键登录'}
           </button>

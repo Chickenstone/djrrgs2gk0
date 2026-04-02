@@ -94,8 +94,8 @@ export function Service() {
       {/* Quick Tools */}
       <div className="px-4 mt-4 grid grid-cols-2 gap-3">
         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center justify-center gap-2">
-          <div className="bg-blue-50 p-3 rounded-full">
-            <Languages className="w-6 h-6 text-blue-500" />
+          <div className="bg-primary-50 p-3 rounded-full">
+            <Languages className="w-6 h-6 text-primary-500" />
           </div>
           <span className="text-sm font-medium text-gray-800">中越语音翻译</span>
           <span className="text-[10px] text-gray-500">无缝对接越南导游</span>
@@ -149,7 +149,7 @@ export function Service() {
               <div className="p-3 bg-gray-50/50 flex justify-between items-center">
                 <div>
                   <div className="flex items-center gap-1 text-xs text-gray-800 font-medium mb-0.5">
-                    <ShieldCheck className="w-3 h-3 text-blue-500" />
+                    <ShieldCheck className="w-3 h-3 text-primary-500" />
                     {pkg.provider}
                   </div>
                   <div className="flex items-center gap-2 text-[10px] text-gray-500">

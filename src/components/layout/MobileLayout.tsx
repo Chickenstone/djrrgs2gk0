@@ -23,26 +23,34 @@ export function MobileLayout() {
         <Outlet />
       </main>
 
-      <nav className="bg-white border-t border-gray-200 pb-[env(safe-area-inset-bottom)] shrink-0">
-        <div className="flex justify-around items-center h-14">
+      <nav className="bg-white/90 backdrop-blur-md border-t border-gray-100 pb-[env(safe-area-inset-bottom)] shrink-0 shadow-[0_-4px_20px_-10px_rgba(0,0,0,0.05)] z-50">
+        <div className="flex justify-around items-center h-16 px-2">
           {TABS.map((tab) => (
             <NavLink
               key={tab.path}
               to={tab.path}
               className={({ isActive }) =>
                 cn(
-                  'flex flex-col items-center justify-center w-full h-full space-y-1',
-                  isActive ? 'text-blue-500' : 'text-gray-500 hover:text-gray-900'
+                  'group flex flex-col items-center justify-center w-full h-full space-y-1 relative',
+                  isActive ? 'text-primary-600' : 'text-gray-400 hover:text-primary-500'
                 )
               }
             >
               {({ isActive }) => (
                 <>
-                  <tab.icon
-                    className={cn('w-6 h-6', isActive ? 'text-blue-500' : 'text-gray-500')}
-                    strokeWidth={isActive ? 2.5 : 2}
-                  />
-                  <span className="text-[10px] font-medium">{tab.name}</span>
+                  <div className={cn(
+                    'p-1.5 rounded-2xl transition-all duration-300 ease-out group-hover:scale-110',
+                    isActive ? 'bg-primary-50 text-primary-600 shadow-soft' : 'text-gray-400'
+                  )}>
+                    <tab.icon
+                      className="w-5 h-5"
+                      strokeWidth={isActive ? 2.5 : 2}
+                    />
+                  </div>
+                  <span className={cn(
+                    'text-[10px] font-medium transition-colors',
+                    isActive ? 'text-primary-700' : 'text-gray-500'
+                  )}>{tab.name}</span>
                 </>
               )}
             </NavLink>

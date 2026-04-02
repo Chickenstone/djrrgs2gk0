@@ -3,7 +3,7 @@ import { Search, Building2, Utensils, Map as MapIcon, Wrench, ShoppingBag } from
 import { Link } from 'react-router-dom';
 
 const MODULES = [
-  { name: '政务大厅', path: '/government', icon: Building2, color: 'bg-blue-500' },
+  { name: '政务大厅', path: '/government', icon: Building2, color: 'bg-primary-500' },
   { name: '美食天地', path: '/food', icon: Utensils, color: 'bg-orange-500' },
   { name: '旅游攻略', path: '/travel', icon: MapIcon, color: 'bg-green-500' },
   { name: '一条龙服务', path: '/service', icon: Wrench, color: 'bg-purple-500' },
@@ -38,7 +38,7 @@ export function Home() {
   return (
     <div className="flex flex-col min-h-full pb-6">
       {/* Header / Search */}
-      <div className="bg-blue-500 pt-6 pb-4 px-4 sticky top-0 z-10 rounded-b-2xl shadow-sm">
+      <div className="bg-primary-500 pt-6 pb-4 px-4 sticky top-0 z-10 rounded-b-2xl shadow-sm">
         <h1 className="text-white text-xl font-bold mb-4">东兴便民通</h1>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -104,7 +104,7 @@ export function Home() {
                 <h4 className="font-bold text-gray-800 text-sm line-clamp-1">{item.title}</h4>
                 <p className="text-xs text-gray-500 mt-1 line-clamp-2">{item.desc}</p>
                 <div className="mt-2 flex justify-end">
-                  <span className="text-[10px] px-2 py-1 bg-blue-50 text-blue-600 rounded-full">
+                  <span className="text-[10px] px-2 py-1 bg-primary-50 text-primary-600 rounded-full">
                     立即查看
                   </span>
                 </div>

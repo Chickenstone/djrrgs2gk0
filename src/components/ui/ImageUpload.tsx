@@ -79,7 +79,7 @@ export function ImageUpload({ value, onChange, className }: ImageUploadProps) {
               <UploadCloud className="w-8 h-8 text-gray-400 mb-2" />
             )}
             <p className="text-sm text-gray-500">
-              {uploading ? '正在上传...' : <><span className="font-semibold text-blue-600">点击上传</span> 或拖拽图片至此处</>}
+              {uploading ? '正在上传...' : <><span className="font-semibold text-primary-600">点击上传</span> 或拖拽图片至此处</>}
             </p>
             <p className="text-xs text-gray-400 mt-1">支持 JPG, PNG (最大 5MB)</p>
           </div>

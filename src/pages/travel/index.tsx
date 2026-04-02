@@ -88,7 +88,7 @@ export function Travel() {
       <div className="px-4 mt-4">
         <div className="flex gap-2">
           <div className="flex-1 bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex items-center gap-2">
-            <div className="bg-blue-50 p-1.5 rounded-lg text-blue-500">
+            <div className="bg-primary-50 p-1.5 rounded-lg text-primary-500">
               <Sun className="w-5 h-5" />
             </div>
             <div>

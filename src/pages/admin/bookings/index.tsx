@@ -16,7 +16,7 @@ interface Booking {
 
 const statusMap: Record<string, { label: string; color: string }> = {
   pending: { label: '待处理', color: 'bg-yellow-100 text-yellow-800' },
-  confirmed: { label: '已接单', color: 'bg-blue-100 text-blue-800' },
+  confirmed: { label: '已接单', color: 'bg-primary-100 text-primary-800' },
   completed: { label: '已完成', color: 'bg-green-100 text-green-800' },
   cancelled: { label: '已取消', color: 'bg-gray-100 text-gray-800' },
 };
@@ -73,7 +73,7 @@ export function BookingsAdmin() {
         <select
           value={item.status}
           onChange={(e) => handleUpdateStatus(item._id, e.target.value)}
-          className="block w-full pl-3 pr-10 py-1 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md border"
+          className="block w-full pl-3 pr-10 py-1 text-base border-gray-300 focus:outline-none focus:ring-primary-500 focus:border-primary-500 sm:text-sm rounded-md border"
         >
           <option value="pending">待处理</option>
           <option value="confirmed">已接单</option>
